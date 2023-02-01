@@ -19,10 +19,11 @@ export function App() {
 
   // -------------------------------------------------|   МЕТОДИ ЦИКЛУ
   useEffect(() => {
+    if (pictName.trim() === '') return;
     const KEY = '31888671-f215a97b976f323f834fb73b1';
 
     setScreen('pending');
-    console.log('pictName',pictName);
+    // console.log('pictName',pictName);
 
     fetch(`https://pixabay.com/api/?q=${pictName}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`)
     .then(resp => resp.json())
@@ -34,7 +35,7 @@ export function App() {
   // -------------------------------------------------|   ОБРОБКА ФЕТЧА
   const succesFetch = (resp) => {
     const { hits } = resp;
-    console.log(resp);
+    // console.log(resp);
 
     if (hits.length < 1) {
       return setScreen('error');
@@ -46,7 +47,7 @@ export function App() {
 
   // -------------------------------------------------|   КАСТОМНІ МЕТОДИ
   const hendleFormSubmit = (name) => {
-    if (name === pictName) return toast.success('Тут поправив ;)');
+    if (name === pictName) return toast.success('Пліз інпут сомфінг ню');
 
     setPage(1);
     setPictName(name);
