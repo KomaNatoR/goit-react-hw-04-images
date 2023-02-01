@@ -60,7 +60,7 @@ export class App extends Component {
 
   // -------------------------------------------------|   КАСТОМНІ МЕТОДИ
   hendleFormSubmit = (name) => {
-    if (name === this.state.pictName) return toast.success('Тут поправив ;)');;
+    if (name === this.state.pictName) return toast.success('Тут поправив ;)');
 
     this.setState({
       page:1,

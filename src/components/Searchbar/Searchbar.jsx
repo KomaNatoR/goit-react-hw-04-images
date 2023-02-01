@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { ImSearch } from 'react-icons/im';
 import PropTypes from 'prop-types';
@@ -6,47 +6,40 @@ import PropTypes from 'prop-types';
 import { Header } from "./searchbar.styled";
 
 
-export default class Searchbar extends Component {
-    state = {
-        value:'',
-    }
+export default function Searchbar({onSubmit}) {
+    const [value, setValue] = useState('');
 
-    hendleCange = (e) => {
-        this.setState({ value: e.currentTarget.value });
+    const hendleCange = (e) => {
+        setValue( e.currentTarget.value );
     };
-    hendleSubmit = (e) => {
+    const hendleSubmit = (e) => {
         e.preventDefault();
-        const { value } = this.state;
 
-        if (value.trim() === '') return toast.error('input name, pleace!');
-        this.props.onSubmit(value);
+        if (value === '') return toast.error('input name, pleace!');
+        onSubmit(value);
         // this.setState({ value: '' });
     };
 
-    render() {
-        const { value } = this.state;
-        const { hendleCange,hendleSubmit } = this;
 
-        return (
-            <Header>
-                <form onSubmit={hendleSubmit}>
-                    <button type="submit">
-                        <span>Search</span>
-                        <ImSearch />
-                    </button>
+    return (
+        <Header>
+            <form onSubmit={hendleSubmit}>
+                <button type="submit">
+                    <span>Search</span>
+                    <ImSearch />
+                </button>
 
-                    <input
-                        type="text"
-                        autoComplete="off"
-                        autoFocus
-                        placeholder="Search images and photos"
-                        value={value}
-                        onChange={hendleCange}
-                    />
-                </form>
-            </Header>
-        );
-    }
+                <input
+                    type="text"
+                    autoComplete="off"
+                    autoFocus
+                    placeholder="Search images and photos"
+                    onChange={hendleCange}
+                />
+            </form>
+        </Header>
+    );
+
 };
 Searchbar.propTypes = {
     onSubmit:PropTypes.func.isRequired,
