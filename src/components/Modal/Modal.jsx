@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from 'prop-types';
 
@@ -6,38 +6,37 @@ import { Div } from "./modal.styled";
 
 const modalRoot = document.querySelector('#modal-root');
 
-export default class Modal extends Component {
-    componentDidMount() {
-        window.addEventListener('keydown', this.hendleKeydown);
-    };
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.hendleKeydown);
-    };
+export default function Modal({toggleModal, modalPict}) {
+    useEffect(() => {
+        window.addEventListener('keydown', hendleKeydown);
+    });
+    // componentDidMount() {
+    //     window.addEventListener('keydown', this.hendleKeydown);
+    // };
+    // componentWillUnmount() {
+    //     window.removeEventListener('keydown', this.hendleKeydown);
+    // };
 
-    hendleKeydown=(e)=>{
-        const { toggleModal } = this.props;
+    const hendleKeydown = (e) => {
+        console.log(e.code);
         if (e.code === 'Escape') toggleModal();
+        window.removeEventListener('keydown', hendleKeydown);
     };
-    hendleBackdropClick = e => {
-        const { toggleModal } = this.props;
-
+    const hendleBackdropClick = e => {
         if (e.currentTarget === e.target) toggleModal();
+        window.removeEventListener('keydown', hendleKeydown);
     };
 
 
-    render() {
-        const { hendleBackdropClick } = this;
-        const { modalPict } = this.props;
+    return createPortal(
+        <Div onClick={hendleBackdropClick}>
+            <div>
+                <img src={modalPict.largeImageURL } alt={modalPict.tags} />
+            </div>
+        </Div>,
+        modalRoot,
+    );
 
-        return createPortal(
-            <Div onClick={hendleBackdropClick}>
-                <div>
-                    <img src={modalPict.largeImageURL } alt={modalPict.tags} />
-                </div>
-            </Div>,
-            modalRoot,
-        );
-    }
 };
 Modal.propTypes = {
     toggleModal: PropTypes.func.isRequired,
