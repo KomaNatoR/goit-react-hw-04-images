@@ -8,14 +8,15 @@ const modalRoot = document.querySelector('#modal-root');
 
 export default function Modal({toggleModal, modalPict}) {
     useEffect(() => {
-        window.addEventListener('keydown', hendleKeydown);
-        return ()=> window.removeEventListener('keydown', hendleKeydown);
-    });
-
     const hendleKeydown = (e) => {
         console.log(e.code);
         if (e.code === 'Escape') toggleModal();
     };
+        window.addEventListener('keydown', hendleKeydown);
+        return ()=> window.removeEventListener('keydown', hendleKeydown);
+    },[toggleModal]);
+
+
     const hendleBackdropClick = e => {
         if (e.currentTarget === e.target) toggleModal();
     };
