@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { ImSearch } from 'react-icons/im';
+import { memo } from "react";
 import PropTypes from 'prop-types';
 
 import { Header } from "./searchbar.styled";
 
 
-export default function Searchbar({onSubmit}) {
+function Searchbar({onSubmit}) {
     const [value, setValue] = useState('');
 
     const hendleCange = (e) => {
@@ -19,7 +20,7 @@ export default function Searchbar({onSubmit}) {
         onSubmit(value);
         // this.setState({ value: '' });
     };
-
+    console.log('Forma!');
 
     return (
         <Header>
@@ -31,6 +32,7 @@ export default function Searchbar({onSubmit}) {
 
                 <input
                     type="text"
+                    // value={value}
                     autoComplete="off"
                     autoFocus
                     placeholder="Search images and photos"
@@ -44,3 +46,5 @@ export default function Searchbar({onSubmit}) {
 Searchbar.propTypes = {
     onSubmit:PropTypes.func.isRequired,
 };
+
+export default memo(Searchbar);

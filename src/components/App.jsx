@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from "react-toastify";
 
 import { AppDiv } from "./app.styled";
 import Searchbar from "./Searchbar/Searchbar";
+// import { fetchApi } from "./ImageGallery/fetch-api";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import Loader from "./Loader/Loader";
 import Button from "./Button/Button";
@@ -19,16 +20,18 @@ export function App() {
 
   // -------------------------------------------------|   МЕТОДИ ЦИКЛУ
   useEffect(() => {
-    if (pictName.trim() === '') return;
-    const KEY = '31888671-f215a97b976f323f834fb73b1';
+    if (pictName) {
+      const KEY = '31888671-f215a97b976f323f834fb73b1';
 
-    setScreen('pending');
-    // console.log('pictName',pictName);
+      setScreen('pending');
+      // console.log('pictName',pictName);
 
-    fetch(`https://pixabay.com/api/?q=${pictName}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`)
-    .then(resp => resp.json())
-    .then(succesFetch)
-    .catch(Error => setScreen('error'));
+      // fetchApi(pictName, page)
+      fetch(`https://pixabay.com/api/?q=${pictName}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`)
+      .then(resp => resp.json())
+      .then(succesFetch)
+      .catch(Error => setScreen('error'));
+    };
     
   }, [pictName, page]);
   
@@ -46,18 +49,18 @@ export function App() {
   };
 
   // -------------------------------------------------|   КАСТОМНІ МЕТОДИ
-  const hendleFormSubmit = (name) => {
+  const hendleFormSubmit = useCallback((name) => {
     if (name === pictName) return toast.success('Пліз інпут сомфінг ню');
 
     setPage(1);
     setPictName(name);
     setImgData([]);
-  };
-  const takeImgId = (id) => {
+  }, [pictName]);
+  const takeImgId = useCallback((id) => {
     const findImg = imgData.find(img => img.id === id);
 
     setModalPict(findImg);
-  };
+  }, [imgData]);
   const loadMore = () => {
     setPage(prevState => prevState + 1);
   };

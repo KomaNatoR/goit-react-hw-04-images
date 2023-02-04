@@ -1,10 +1,12 @@
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 
 import ImageGalleryItem from "./ImageGalleryItem";
 import { Ul } from "./imageGallery.styled";
 
 
-export default function ImageGallery({imgData,takeImgId}) {
+function ImageGallery({imgData,takeImgId}) {
+    // console.log('Galery!');
     return (
         <Ul>
             {/* <ImageGalleryItem/> */}
@@ -23,3 +25,5 @@ ImageGallery.propTypes = {
 ImageGallery.defaultProps = {
     imgData:[],
 };
+
+export default memo(ImageGallery);
